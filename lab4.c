@@ -171,12 +171,14 @@ void imprimeLista (tipoLDDE *listaAux)
   
   tipoElemento *temp;
   temp = listaAux->primeiro;
-  while (cont < listaAux->tamanhoLista) {
-    printf("%d ", temp->num);
-    temp = temp->prox;
-    cont++;
+  if (listaAux->tamanhoLista > 0) {
+    while (cont < listaAux->tamanhoLista) {
+      printf("%d ", temp->num);
+      temp = temp->prox;
+      cont++;
+    }
+    printf("\n");
   }
-  printf("\n");
 }
 
 int main(void) 
