@@ -54,6 +54,7 @@ void removeElemento (tipoLDDE *listaAux)
 void insereNovoElemento (tipoLDDE *listaAux, int num, int pos)
 {
   int cont = 0;
+  bool removeu = false;
 
   listaAux->ultimo->prox = listaAux->primeiro;
   listaAux->primeiro->ant = listaAux->ultimo;
@@ -121,48 +122,50 @@ void insereNovoElemento (tipoLDDE *listaAux, int num, int pos)
       free(temp->prox);
       free(temp);
       listaAux->tamanhoLista -= 3;
+      removeu = true;
     }
     temp = temp->prox;
     cont++;
   }
 
-  temp = listaAux->primeiro;
-  cont = 0;
-  while (cont < listaAux->tamanhoLista) {
-    if ((temp->ant->num + temp->num + temp->prox->num) == 10) {
-      if (temp == listaAux->primeiro) {
-        listaAux->primeiro = temp->prox->prox;
-        listaAux->ultimo = listaAux->ultimo->ant;
-        /*listaAux->primeiro->ant = listaAux->ultimo;
-        listaAux->ultimo->prox = listaAux->primeiro;*/
-      }
-      else {
-        if (temp->ant == listaAux->primeiro) {
+  /*verificação dupla*/
+  if (removeu) {
+    temp = listaAux->primeiro;
+    cont = 0;
+    while (cont < listaAux->tamanhoLista) {
+      if ((temp->ant->num + temp->num + temp->prox->num) == 10) {
+        if (temp == listaAux->primeiro) {
           listaAux->primeiro = temp->prox->prox;
+          listaAux->ultimo = listaAux->ultimo->ant;
         }
         else {
-          if (temp->prox == listaAux->primeiro) {
-            listaAux->primeiro = listaAux->primeiro->prox;
-            listaAux->ultimo = listaAux->ultimo->ant->ant;
+          if (temp->ant == listaAux->primeiro) {
+            listaAux->primeiro = temp->prox->prox;
           }
           else {
-            if (temp->prox == listaAux->ultimo) {
-              listaAux->ultimo = temp->ant->ant;
+            if (temp->prox == listaAux->primeiro) {
+              listaAux->primeiro = listaAux->primeiro->prox;
+              listaAux->ultimo = listaAux->ultimo->ant->ant;
             }
             else {
-              temp->ant->ant->prox = temp->prox->prox;
-              temp->prox->prox->ant = temp->ant->ant;
+              if (temp->prox == listaAux->ultimo) {
+                listaAux->ultimo = temp->ant->ant;
+              }
+              else {
+                temp->ant->ant->prox = temp->prox->prox;
+                temp->prox->prox->ant = temp->ant->ant;
+              }
             }
           }
         }
+        free(temp->ant);
+        free(temp->prox);
+        free(temp);
+        listaAux->tamanhoLista -= 3;
       }
-      free(temp->ant);
-      free(temp->prox);
-      free(temp);
-      listaAux->tamanhoLista -= 3;
+      temp = temp->prox;
+      cont++;
     }
-    temp = temp->prox;
-    cont++;
   }
   
 }
