@@ -46,11 +46,6 @@ void insereListaInicial (tipoLDDE *listaAux, int num)
   listaAux->tamanhoLista++;
 }
 
-void removeElemento (tipoLDDE *listaAux)
-{
-  
-}
-
 void insereNovoElemento (tipoLDDE *listaAux, int num, int pos)
 {
   int cont = 0;
